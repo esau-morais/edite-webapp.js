@@ -34,25 +34,22 @@ function App(props) {
   const isMobile = useMediaQuery();
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <Global />
       {!isMobile ? (
-        <ThemeProvider theme={theme}>
-          <Global />
-
-          <ToolbarContext.Provider value={{ open, setOpen }}>
-            <ToolsContext.Provider value={{ activeTool, setActiveTool }}>
-              <SliderContext.Provider value={{ show, setShow }}>
-                <ToolbarLeft toggleTheme={toggleTheme} />
-                <FileUploader />
-                <ToolbarRight />
-              </SliderContext.Provider>
-            </ToolsContext.Provider>
-          </ToolbarContext.Provider>
-        </ThemeProvider>
+        <ToolbarContext.Provider value={{ open, setOpen }}>
+          <ToolsContext.Provider value={{ activeTool, setActiveTool }}>
+            <SliderContext.Provider value={{ show, setShow }}>
+              <ToolbarLeft toggleTheme={toggleTheme} />
+              <FileUploader />
+              <ToolbarRight />
+            </SliderContext.Provider>
+          </ToolsContext.Provider>
+        </ToolbarContext.Provider>
       ) : (
         <Mobile />
       )}
-    </>
+    </ThemeProvider>
   );
 }
 
