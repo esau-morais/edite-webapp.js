@@ -1,4 +1,6 @@
 import { useState, useContext } from 'react';
+// Providers
+import { ThemeContext } from 'styled-components';
 import { ToolbarContext } from 'App';
 // i18n
 import i18next from 'i18next';
@@ -23,14 +25,16 @@ const shortcutsStyles = {
   justifyContent: 'space-between'
 }
 
-function ToolsList() {
+function ToolsList({ toggleTheme }) {
   const I18NEXT_KEY = 'i18nextLng';
   const { t } = useTranslation();
+  // Access and set the theme colors
+  const { title } = useContext(ThemeContext);
   // Access and set the tool functions after active
   const { setOpen } = useContext(ToolbarContext);
   const [openShortcuts, setOpenShortcuts] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
-  // Manage the tool statement (active)
+  // Manage the tool state (active)
   const [activeTool, setActiveTool] = useState();
 
   // i18n
@@ -161,7 +165,10 @@ function ToolsList() {
 
           <MainText>{t('Tools.Settings.Items.Two')}</MainText>
           {/* Theme switcher */}
-          <Switch />
+          <Switch
+            isToggled={title === 'dark'}
+            onSwitch={toggleTheme}
+          />
         </section>
       </Modal>
     </>

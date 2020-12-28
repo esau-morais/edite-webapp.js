@@ -3,11 +3,11 @@ import { LeftContainer } from '../toolbar.styles';
 // Components (children)
 import ToolsList from './tools';
 
-function ToolbarLeft() {
+function ToolbarLeft({ toggleTheme }) {
   return (
     <LeftContainer>
       <ul>
-        <ToolsList />
+        <ToolsList toggleTheme={toggleTheme} />
       </ul>
     </LeftContainer>
   )

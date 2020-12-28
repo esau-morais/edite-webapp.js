@@ -1,18 +1,15 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-
-import i18n from './i18n';
-// Components (styles)
-import Global from './styles/global';
-// Components (childs)
-import Spinner from './components/Spinner';
-import App from './App';
+// i18n
+import i18n from 'i18n';
+// Components (children)
+import Spinner from 'components/Spinner';
+import App from 'App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<Spinner />}>
-      <Global />
       <App />
     </Suspense>
   </React.StrictMode>,

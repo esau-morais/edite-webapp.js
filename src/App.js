@@ -1,10 +1,18 @@
 import { createContext, useState } from 'react';
-import useMediaQuery from './hooks/useMediaQuery';
+// Providers
+import { ThemeProvider } from 'styled-components';
+// Custom Hooks
+import useThemeSwitcher from 'hooks/useThemeSwitcher';
+import useMediaQuery from 'hooks/useMediaQuery';
 // Components (children)
-import ToolbarLeft from './components/Toolbar/Left';
-import FileUploader from './components/FileUploader';
-import ToolbarRight from './components/Toolbar/Right';
-import Mobile from './components/Mobile';
+import ToolbarLeft from 'components/Toolbar/Left';
+import FileUploader from 'components/FileUploader';
+import ToolbarRight from 'components/Toolbar/Right';
+import Mobile from 'components/Mobile';
+// Components (styles/themes)
+import Global from 'styles/global';
+import light from 'styles/themes/light';
+import dark from 'styles/themes/dark';
 // Providers
 export const ToolbarContext = createContext();
 export const ToolsContext = createContext();
@@ -15,6 +23,12 @@ function App(props) {
   const [open, setOpen] = useState(false);
   const [activeTool, setActiveTool] = useState();
   const [show, setShow] = useState(false);
+  // Current theme state (light/dark)
+  const [theme, setTheme] = useThemeSwitcher('theme', dark);
+
+  const toggleTheme = () => {
+    setTheme(theme.title === 'dark' ? light : dark)
+  }
 
   // Detect if it is mobile by the size
   const isMobile = useMediaQuery();
@@ -22,15 +36,19 @@ function App(props) {
   return (
     <>
       {!isMobile ? (
-      <ToolbarContext.Provider value={{ open, setOpen }}>
-        <ToolsContext.Provider value={{ activeTool, setActiveTool }}>
-          <SliderContext.Provider value={{ show, setShow }}>
-            <ToolbarLeft />
-            <FileUploader />
-            <ToolbarRight />
-          </SliderContext.Provider>
-        </ToolsContext.Provider>
-      </ToolbarContext.Provider>
+        <ThemeProvider theme={theme}>
+          <Global />
+
+          <ToolbarContext.Provider value={{ open, setOpen }}>
+            <ToolsContext.Provider value={{ activeTool, setActiveTool }}>
+              <SliderContext.Provider value={{ show, setShow }}>
+                <ToolbarLeft toggleTheme={toggleTheme} />
+                <FileUploader />
+                <ToolbarRight />
+              </SliderContext.Provider>
+            </ToolsContext.Provider>
+          </ToolbarContext.Provider>
+        </ThemeProvider>
       ) : (
         <Mobile />
       )}

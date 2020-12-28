@@ -1,12 +1,7 @@
-import { useState } from 'react';
 // Components (styles)
 import { CustomSwitch } from './switch.styles';
 
-function Switch() {
-  const [isToggled, setIsToggled] = useState(false);
-
-  const onSwitch = () => setIsToggled(!isToggled);
-
+function Switch({ isToggled, onSwitch }) {
   return (
     <CustomSwitch>
       <input

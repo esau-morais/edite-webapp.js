@@ -11,8 +11,8 @@ export const CustomSelect = styled.select`
   line-height: 1.25rem;
 
   // Colors
-  background-color: var(--primary-background);
-  color: var(--primary-foreground);
+  background-color: ${({ theme }) => theme.colors.primaryBackground};
+  color: ${({ theme }) => theme.colors.primaryForeground};
 
   border-radius: 5px;
 

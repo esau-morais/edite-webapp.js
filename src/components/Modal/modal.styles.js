@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
   padding: var(--margin4x);
 
   // Colors
-  background-color: var(--secondary-background);
+  background-color: ${({ theme }) => theme.colors.secondaryBackground};
   box-shadow: 0 0.5rem 2rem 1rem rgba(0, 0, 0, .32);
 
   // Close button

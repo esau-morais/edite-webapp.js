@@ -20,6 +20,11 @@ export const Box = styled.form`
     flex-direction: inherit;
     align-items: inherit
   }
+  // Logo
+  div.input__box
+  > svg > g > path {
+    fill: ${({ theme }) => theme.colors.secondaryForeground}
+  }
   // Default
   input[type="file"] {
     display: none
@@ -42,7 +47,7 @@ export const Box = styled.form`
     line-height: 1.722rem;
 
     // Default colors
-    color: var(--secondary-foreground);
+    color: ${({ theme }) => theme.colors.secondaryForeground};
 
     user-select: none
   }
@@ -108,5 +113,5 @@ export const UploadState = styled.div`
   align-items: center;
 
   // Colors
-  color: var(--primary-foreground)
+  color: ${({ theme }) => theme.colors.primaryForeground}
 `;

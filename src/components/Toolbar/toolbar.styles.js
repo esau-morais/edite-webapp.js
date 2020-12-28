@@ -6,7 +6,7 @@ export const LeftContainer = styled.div`
   height: 100%;
 
   // Colors
-  background-color: var(--secondary-background);
+  background-color: ${({ theme }) => theme.colors.secondaryBackground};
 
   position: relative;
 
@@ -81,11 +81,11 @@ export const ItemContent = styled.li`
 
   // Colors
   svg > path {
-    fill: var(--secondary-foreground);
+    fill: ${({ theme }) => theme.colors.secondaryForeground};
     transition: fill .2s ease;
   }
   svg:hover > path {
-    fill: var(--primary-foreground);
+    fill: ${({ theme }) => theme.colors.primaryForeground};
   }
 
   // Active items → Add a border to the left

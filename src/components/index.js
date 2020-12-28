@@ -8,7 +8,7 @@ export const Heading = styled.h2`
   line-height: 39px;
 
   // Colors
-  color: var(--primary-foreground);
+  color: ${({ theme }) => theme.colors.primaryForeground};
 `;
 
 export const MainText = styled.p`
@@ -23,7 +23,7 @@ export const MainText = styled.p`
   line-height: 1.25rem;
 
   // Colors
-  color: var(--secondary-foreground)
+  color: ${({ theme }) => theme.colors.secondaryForeground}
 `;
 
 export const Button = styled.button`

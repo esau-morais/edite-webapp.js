@@ -1,26 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function useThemeSwitcher() {
-  const [theme, setTheme] = useState('light');
-  const [mountedComponent, setMountedComponent] = useState(false);
-
-  const setMode = mode => {
-    window.localStorage.setItem('theme', mode)
-    setTheme(mode)
-  };
-
-  const themeToggler = () => {
-    theme === 'light' ? setMode('dark') : setMode('light')
-  };
+function useThemeSwitcher(key, initialTheme) {
+  const [theme, setTheme] = useState(
+    () => {
+      const storagedTheme = localStorage.getItem(key);
+      if (storagedTheme) JSON.parse(storagedTheme)
+      return initialTheme;
+    }
+  );
 
   useEffect(() => {
-    const localTheme = window.localStorage.getItem('theme');
-    localTheme && setTheme(localTheme);
+    localStorage.setItem(key, JSON.stringify(theme));
+  }, [key, theme]);
 
-    setMountedComponent(true);
-  }, []);
-
-  return [theme, themeToggler, mountedComponent]
-};
+  return [ theme, setTheme ];
+}
 
 export default useThemeSwitcher;

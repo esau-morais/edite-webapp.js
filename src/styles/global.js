@@ -19,7 +19,7 @@ const Global = createGlobalStyle`
     min-height: 100%;
 
     // Colors
-    background-color: var(--primary-background);
+    background-color: ${({ theme }) => theme.colors.primaryBackground};
 
     // Display
     display: flex;
