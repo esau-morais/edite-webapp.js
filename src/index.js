@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import i18n from './i18n';
+// Components (styles)
+import Global from './styles/global';
+// Components (childs)
+import Spinner from './components/Spinner';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Suspense fallback={<Spinner />}>
+      <Global />
+      <App />
+    </Suspense>
   </React.StrictMode>,
   document.getElementById('root')
 );
