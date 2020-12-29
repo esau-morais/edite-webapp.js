@@ -45,7 +45,9 @@
   "DND": {
     "Main": "Arraste & Solte sua image aqui",
     "Or": "ou",
-    "Label": "Procurar imagem"
+    "Label": "Procurar imagem",
+    "Uploading": "Carregando...",
+    "UploadingTwo": "Isso levará alguns segundos :)"
   }
 }
 

@@ -45,6 +45,8 @@
   "DND": {
     "Main": "Drag & Drop your image here",
     "Or": "or",
-    "Label": "Browse image"
+    "Label": "Browse image",
+    "Uploading": "Uploading...",
+    "UploadingTwo": "It'll take just a few seconds :)"
   }
 }

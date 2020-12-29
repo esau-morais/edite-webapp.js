@@ -81,28 +81,43 @@ export const Box = styled.form`
 export const ImageBox = styled.div`
   // Spacement
   margin-bottom: var(--margin2x);
-
-  // Size
-  width: 80%;
+  padding: 1rem;
 
   // Position
   position: relative;
 
+  // Uploaded image
   img {
-    max-width: 100%; // 80%
-    height: auto
+    // Size
+    max-width: 100%; // Change based on the height
+    max-height: 80vh;
+
+    border 1px solid ${({ theme }) => theme.colors.primaryForeground}
   }
 
+  // Delete button
   button {
     // Position → Top-right
     position: absolute;
-    top: -0.625rem;
-    right: -0.625rem;
+    top: 0;
+    right: 0;
   }
+  button > svg {
+    // Spacement
+    padding: 0.25rem;
 
+    // Colors
+    background-color: ${({ theme }) => theme.colors.primaryBackground};
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1),
+                0 1px 2px 0 rgba(0,0,0,0.06);
+    border-radius: 100%;
+  }
+  button > svg > path {
+    fill: ${({ theme }) => theme.colors.primaryForeground}
+  }
   button:hover > svg > path {
     fill: var(--primary-red);
-    transition: fill 0.2s ease-in-out 0s
+    transition: fill 0.2s ease-in-out 0s;
   }
 `;
 

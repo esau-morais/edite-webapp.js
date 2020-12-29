@@ -28,7 +28,7 @@ export const CustomSwitch = styled.label`
     border-radius: 2.25rem;
 
     // Colors
-    background-color: var(--primary-foreground);
+    background-color: var(--secondary-blue);
     transition: background-color .2s ease;
   }
 
