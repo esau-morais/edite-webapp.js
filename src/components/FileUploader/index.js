@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 // i18n
 import { useTranslation } from 'react-i18next';
 // Providers
@@ -8,6 +8,7 @@ import useProgressiveImg from 'hooks/useProgressiveImg';
 // Icons
 import { ReactComponent as Logo } from 'assets/Logo.svg';
 import { ReactComponent as Upload } from 'assets/Upload.svg';
+import { ReactComponent as Drag } from 'assets/Drag.svg';
 import { ReactComponent as Delete } from 'assets/Delete.svg';
 // Components (children)
 import Slider from '../Slider';
@@ -22,6 +23,8 @@ function FileUploader() {
   // i18n
   const { t } = useTranslation();
   // Image uploading states
+  const dndRef = useRef(); // Access DnD element reference and its current state
+  const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
   const [src, { blur }] = useProgressiveImg(
@@ -34,6 +37,66 @@ function FileUploader() {
   const [options, setOptions] = useState(DEFAULT_OPTIONS);
   const selectedFilter = options[activeTool];
 
+  // DnD (Drag 'n' drop) file upload
+  const handleDragIn = e => {
+    // Prevent default events and file be opened
+    e.preventDefault();
+    e.stopPropagation();
+    // If a file at least one file was found
+    if (e.dataTransfer.items) setIsDragging(true);
+  }
+  const handleDragOut = e => {
+    // Prevent default events and file be opened
+    e.preventDefault();
+    e.stopPropagation();
+    // If the user cancels/stops dragging¹
+    setIsDragging(false);
+  }
+  const handleDrag = e => {
+    // Prevent default events and file be opened
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  const handleDrop = async e => {
+    // Prevent default events and file be opened
+    e.preventDefault();
+    e.stopPropagation();
+    // If the user drops the file
+    if (e.dataTransfer.files) {
+      let formData = new FormData();
+      formData.append('file', e.dataTransfer.files[0]);
+      formData.append('upload_preset', 'Edite_App');
+      setIsUploading(true);
+
+      let data = await api.post('/image/upload', formData);
+
+      let file = data.data;
+
+      setIsDragging(false);
+      setIsUploading(false);
+      setUploadedImageUrl(file.secure_url);
+      setUploadedImageName(file.original_filename);
+    }
+  }
+
+  useEffect(() => {
+    // Get the mounted DnD instance as its `current`
+    let dragzoneEl = dndRef.current;
+
+    // "Watch" all the events
+    dragzoneEl.addEventListener('dragenter', handleDragIn);
+    dragzoneEl.addEventListener('dragleave', handleDragOut);
+    dragzoneEl.addEventListener('dragover', handleDrag);
+    dragzoneEl.addEventListener('drop', handleDrop);
+    // Clean up all the events
+    return () => {
+      dragzoneEl.removeEventListener('dragenter', handleDragIn);
+      dragzoneEl.removeEventListener('dragleave', handleDragOut);
+      dragzoneEl.removeEventListener('dragover', handleDrag);
+      dragzoneEl.removeEventListener('drop', handleDrop);
+    }
+  }, [])
+
   // Get the file's data and send to clodinary
   const onFileChange = async e => {
     let formData = new FormData();
@@ -45,6 +108,7 @@ function FileUploader() {
 
     let file = data.data;
 
+    setIsDragging(false);
     setIsUploading(false);
     setUploadedImageUrl(file.secure_url);
     setUploadedImageName(file.original_filename);
@@ -70,11 +134,14 @@ function FileUploader() {
   }
 
   return (
-    <Box>
+    <Box
+      className={isDragging ? 'box__dragging' : ''}
+      ref={dndRef}
+    >
       {/* If the image was not uploaded yet... */}
       {!uploadedImageUrl ? (
         <>
-          {!isUploading && (
+          {(!isUploading && !isDragging) && (
             <div className="input__box">
               <Logo />
               <input
@@ -98,34 +165,46 @@ function FileUploader() {
             </div>
           )}
         </>
-      ) :
-        <ImageBox>
-          <img
-            src={uploadedImageUrl}
-            alt={uploadedImageName}
-            style={{
-              filter: blur
-                ? 'blur(1.25rem)' // Blur effect if image still loading
-                : handleImageStyling(),
-              transition: blur
-                ? 'none'
-                : 'filter .3s ease-out'
-            }}
-          />
-          <button onClick={() => setUploadedImageUrl('')}>
-            <Delete />
-          </button>
-        </ImageBox>
-      }
-      {/* If the image still loading... */}
-      {isUploading ? (
+      ) : (
+        <>
+          {/* If the user drops an image if there's already one uploaded */}
+          {!isDragging && (
+            <ImageBox>
+              <img
+                src={uploadedImageUrl}
+                alt={uploadedImageName}
+                style={{
+                  filter: blur
+                    ? 'blur(1.25rem)' // Progressive image loading
+                    : handleImageStyling(),
+                  transition: blur
+                    ? 'none'
+                    : 'filter .3s ease-out'
+                }}
+              />
+              <button onClick={() => setUploadedImageUrl('')}>
+                <Delete />
+              </button>
+            </ImageBox>
+          )}
+        </>
+      )}
+      {/* If the image still being dragged and not loading... */}
+      {(isDragging && !isUploading) && (
+        <UploadState>
+          <Drag />
+          <strong>Drag & Drop your image here</strong>
+        </UploadState>
+      )}
+      {/* If the image still loading and not being dragged... */}
+      {(isUploading && !isDragging) && (
         <UploadState>
           <Upload />
           <strong>{t('DND.Uploading')}</strong>
           <span>{t('DND.UploadingTwo')}</span>
         </UploadState>
-      ) : null}
-      {/* If the upload finished... */}
+      )}
+      {/* If the upload finished and the filters tool is open... */}
       {uploadedImageUrl && (
         <Slider
           min={selectedFilter?.range.min}

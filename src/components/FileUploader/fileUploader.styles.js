@@ -30,6 +30,13 @@ export const Box = styled.form`
     display: none
   }
 
+  // DnD (dragging)
+  &.box__dragging {
+    outline: 2px dashed var(--secondary-blue);
+    outline-offset: -2rem;
+    transition: outline-offset .2s ease
+  }
+
   // DnD upload text (box)
   div.box__upload_text {
     // Spacement
