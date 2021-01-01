@@ -1,4 +1,4 @@
-export default {
+const light = {
   title: 'light',
 
   colors: {
@@ -8,3 +8,5 @@ export default {
     secondaryBackground: '#F5F5F5'
   }
 }
+
+export default light;
