@@ -69,7 +69,7 @@ export const Container = styled.div`
       transform: translate3d(0, 0, 0)
     }
     &.left {
-      transform: translate3d(-10rem, 0, 0)
+      transform: translate3d(calc(-100% - 4rem), 0, 0)
     }
   }
 `;
