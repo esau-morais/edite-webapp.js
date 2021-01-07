@@ -27,7 +27,7 @@ function FileUploader() {
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
-  const [src, { blur }] = useProgressiveImg(
+  const [, { blur }] = useProgressiveImg(
     '',
     uploadedImageUrl
   );
@@ -171,6 +171,7 @@ function FileUploader() {
           {!isDragging && (
             <ImageBox>
               <img
+                draggable="false" // Prevent default drag
                 src={uploadedImageUrl}
                 alt={uploadedImageName}
                 style={{

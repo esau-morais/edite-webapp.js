@@ -16,10 +16,15 @@ export const CustomSelect = styled.select`
 
   border-radius: 5px;
 
-  cursor: pointer;
+  appearance: none; // Remove default arrow -> Firefox issues
+  // Replace removed arrow
+  background-image: url(/images/icons/arrowDown.svg);
+  background-repeat: no-repeat;
+  background-position: 92%;
+  background-size: auto;
 
   // Options
-  options {
+  option {
     margin-top: 0.5rem
   }
 `;

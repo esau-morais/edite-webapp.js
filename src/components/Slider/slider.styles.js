@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  // Container
+  // Items disposition -> Row
+  display: inline-flex;
+  align-items: center;
+
+  // Range slider container
   input[type="range"] {
     // Remove default container shape
     appearance: none;
@@ -13,9 +17,12 @@ export const Wrapper = styled.div`
     // Colors
     background-color: var(--secondary-foreground);
   }
+  input[type=range]:focus {
+    outline: none // Remove default outline styling
+  }
 
   // Knob
-  input[type="range"]::-webkit-scrollbar-thumb {
+  input[type=range]::-webkit-scrollbar-thumb {
     // (Force) Remove default knob
     appearance: none!important;
 
@@ -26,5 +33,19 @@ export const Wrapper = styled.div`
     // Colors
     background-color: var(--secondary-blue);
     box-shadow: 0 0 1rem rgba(24 160 251, 0.08)
+  }
+
+  // Range slider value
+  span.slider__value {
+    margin-left: var(--margin); // Spacement between the value and the slider
+    padding: var(--margin);
+
+    border-radius: var(--primary-border-radius);
+
+    // Colors
+    background-color: var(--primary-blue);
+    color: var(--primary-foreground);
+
+    user-select: none; // Prevent from drag the text
   }
 `;

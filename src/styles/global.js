@@ -59,6 +59,7 @@ const Global = createGlobalStyle`
   }
 
   button,
+  input[type=range],
   select {
     cursor: pointer;
 
@@ -83,7 +84,6 @@ const Global = createGlobalStyle`
   // Accessbility
   button:focus,
   label:focus,
-  input[type="range"]:focus,
   select:focus,
   svg:focus {
     outline: 1px dashed var(--primary-blue)

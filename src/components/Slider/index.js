@@ -12,6 +12,7 @@ function Slider({ min, max, value, handleChange }) {
       {show && (
         <Wrapper>
           <input
+            id="slider"
             type="range"
             min={min}
             max={max}
@@ -19,6 +20,9 @@ function Slider({ min, max, value, handleChange }) {
             value={value}
             onChange={handleChange}
           />
+          <span className="slider__value">
+            {value}
+          </span>
         </Wrapper>
       )}
     </>
