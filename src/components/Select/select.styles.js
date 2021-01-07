@@ -18,7 +18,10 @@ export const CustomSelect = styled.select`
 
   appearance: none; // Remove default arrow -> Firefox issues
   // Replace removed arrow
-  background-image: url(/images/icons/arrowDown.svg);
+  background-image: ${({ theme }) => theme.title === 'dark'
+    ? 'url(/images/icons/arrowDownLight.svg)'
+    : 'url(/images/icons/arrowDownDark.svg)'
+  };
   background-repeat: no-repeat;
   background-position: 92%;
   background-size: auto;

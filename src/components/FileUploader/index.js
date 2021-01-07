@@ -194,7 +194,7 @@ function FileUploader() {
       {(isDragging && !isUploading) && (
         <UploadState>
           <Drag />
-          <strong>Drag & Drop your image here</strong>
+          <span>{t('DND.Main')}</span>
         </UploadState>
       )}
       {/* If the image still loading and not being dragged... */}
