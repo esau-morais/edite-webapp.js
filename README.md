@@ -13,6 +13,7 @@
 * `src`
     * `assets` → SVG icons.
     * `components` → React and styled-components components that are used across the app.
+    * `hooks` → Custom Hooks to create reusable components.
     * `i18n` → Internationalization and localization
     * `services` → API consuming
     * `styles` → Global styles and themes variables
@@ -20,7 +21,6 @@
 
 ## 🚀 Local environment
 
-Edite Webapp requires a service running before itself.
 Check out [how to run Edite locally](https://github.com/Edite-App/Edite#-running-edite-locally).
 
 ## 🙌  Want to Help?

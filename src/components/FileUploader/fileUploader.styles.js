@@ -94,7 +94,7 @@ export const ImageBox = styled.div`
   position: relative;
 
   // Uploaded image
-  img {
+  canvas {
     // Size
     max-width: 100%; // Change based on the height
     max-height: 80vh;
@@ -103,13 +103,22 @@ export const ImageBox = styled.div`
   }
 
   // Delete button
+  button,
+  a {
+    position: absolute
+  }
   button {
     // Position → Top-right
-    position: absolute;
     top: 0;
     right: 0;
   }
-  button > svg {
+  a {
+    // Position → Bottom-right
+    bottom: 0;
+    right: 0;
+  }
+  button > svg,
+  a > svg {
     // Spacement
     padding: 0.25rem;
 
@@ -119,12 +128,16 @@ export const ImageBox = styled.div`
                 0 1px 2px 0 rgba(0,0,0,0.06);
     border-radius: 100%;
   }
-  button > svg > path {
-    fill: ${({ theme }) => theme.colors.primaryForeground}
+  button > svg > path,
+  a > svg > path {
+    fill: ${({ theme }) => theme.colors.primaryForeground};
+    transition: fill 0.2s ease-in-out 0s;
   }
   button:hover > svg > path {
     fill: var(--primary-red);
-    transition: fill 0.2s ease-in-out 0s;
+  }
+  a:hover > svg > path {
+    fill: var(--secondary-blue)
   }
 `;
 

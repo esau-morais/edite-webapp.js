@@ -22,7 +22,8 @@ export const Wrapper = styled.div`
   }
 
   // Knob
-  input[type=range]::-webkit-scrollbar-thumb {
+  input[type=range]::-webkit-scrollbar-thumb,
+  input[type=range]::-moz-range-thumb {
     // (Force) Remove default knob
     appearance: none!important;
 

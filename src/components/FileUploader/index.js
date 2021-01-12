@@ -10,14 +10,13 @@ import { ReactComponent as Logo } from 'assets/Logo.svg';
 import { ReactComponent as Upload } from 'assets/Upload.svg';
 import { ReactComponent as Drag } from 'assets/Drag.svg';
 import { ReactComponent as Delete } from 'assets/Delete.svg';
+import { ReactComponent as Download } from 'assets/Download.svg';
 // Components (children)
 import Slider from '../Slider';
 // CSS filters
 import DEFAULT_OPTIONS from '../Toolbar/Right/options.json';
 // Components (styles)
 import { Box, ImageBox, UploadState } from './fileUploader.styles';
-// Api
-import api from 'services/api';
 
 function FileUploader() {
   // i18n
@@ -31,7 +30,7 @@ function FileUploader() {
     '',
     uploadedImageUrl
   );
-  const [uploadedImageName, setUploadedImageName] = useState('image');
+  const [uploadedImageName, ] = useState('image');
   // CSS Filters
   const { activeTool } = useContext(ToolsContext);
   const [options, setOptions] = useState(DEFAULT_OPTIONS);
@@ -57,25 +56,32 @@ function FileUploader() {
     e.preventDefault();
     e.stopPropagation();
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleDrop = async e => {
     // Prevent default events and file be opened
     e.preventDefault();
     e.stopPropagation();
     // If the user drops the file
     if (e.dataTransfer.files) {
-      let formData = new FormData();
-      formData.append('file', e.dataTransfer.files[0]);
-      formData.append('upload_preset', 'Edite_App');
-      setIsUploading(true);
-
-      let data = await api.post('/image/upload', formData);
-
-      let file = data.data;
+      let fileReader = new FileReader();
+      fileReader.onload = e => {
+        e.preventDefault()
+        let imageFile = new Image();
+        imageFile.onload = () => {
+          const canvas = document.querySelector('canvas');
+          canvas.width = imageFile.width;
+          canvas.height = imageFile.height;
+          const ctx = canvas.getContext('2d');
+          if (handleImageStyling) ctx.filter = handleImageStyling();
+          ctx.drawImage(imageFile, 0, 0);
+        }
+        imageFile.src = e.target.result;
+        setUploadedImageUrl(imageFile.src);
+      }
+      fileReader.readAsDataURL(e.target.files[0]);
 
       setIsDragging(false);
       setIsUploading(false);
-      setUploadedImageUrl(file.secure_url);
-      setUploadedImageName(file.original_filename);
     }
   }
 
@@ -88,6 +94,7 @@ function FileUploader() {
     dragzoneEl.addEventListener('dragleave', handleDragOut);
     dragzoneEl.addEventListener('dragover', handleDrag);
     dragzoneEl.addEventListener('drop', handleDrop);
+
     // Clean up all the events
     return () => {
       dragzoneEl.removeEventListener('dragenter', handleDragIn);
@@ -95,23 +102,29 @@ function FileUploader() {
       dragzoneEl.removeEventListener('dragover', handleDrag);
       dragzoneEl.removeEventListener('drop', handleDrop);
     }
-  }, [])
+  }, [handleDrop])
 
   // Get the file's data and send to clodinary
-  const onFileChange = async e => {
-    let formData = new FormData();
-    formData.append('file', e.target.files[0]);
-    formData.append('upload_preset', 'Edite_App');
-    setIsUploading(true);
-
-    let data = await api.post('/image/upload', formData);
-
-    let file = data.data;
+  const onFileChange = e => {
+    let fileReader = new FileReader();
+    fileReader.onload = e => {
+      e.preventDefault()
+      let imageFile = new Image();
+      imageFile.onload = () => {
+        const canvas = document.querySelector('canvas');
+        canvas.width = imageFile.width;
+        canvas.height = imageFile.height;
+        const ctx = canvas.getContext('2d');
+        if (handleImageStyling) ctx.filter = handleImageStyling();
+        ctx.drawImage(imageFile, 0, 0);
+      }
+      imageFile.src = e.target.result;
+      setUploadedImageUrl(imageFile.src);
+    }
+    fileReader.readAsDataURL(e.target.files[0]);
 
     setIsDragging(false);
     setIsUploading(false);
-    setUploadedImageUrl(file.secure_url);
-    setUploadedImageName(file.original_filename);
   }
 
   // Get slider value according to the tools
@@ -170,22 +183,19 @@ function FileUploader() {
           {/* If the user drops an image if there's already one uploaded */}
           {!isDragging && (
             <ImageBox>
-              <img
-                draggable="false" // Prevent default drag
-                src={uploadedImageUrl}
-                alt={uploadedImageName}
-                style={{
-                  filter: blur
-                    ? 'blur(1.25rem)' // Progressive image loading
-                    : handleImageStyling(),
-                  transition: blur
-                    ? 'none'
-                    : 'filter .3s ease-out'
-                }}
-              />
+              <canvas style={{
+                filter: blur && 'blur(1rem)'
+              }}></canvas>
               <button onClick={() => setUploadedImageUrl('')}>
                 <Delete />
               </button>
+              <a
+                draggable="false"
+                href={uploadedImageUrl}
+                download={uploadedImageName}
+              >
+                <Download />
+              </a>
             </ImageBox>
           )}
         </>

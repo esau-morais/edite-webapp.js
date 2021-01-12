@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 // Providers
 import { ThemeContext } from 'styled-components';
 import { ToolbarContext } from 'App';
@@ -49,6 +49,7 @@ function ToolsList({ toggleTheme }) {
   }
 
   // Tools properties
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const tools = [
     {
       key: 0,
@@ -70,6 +71,13 @@ function ToolsList({ toggleTheme }) {
       image: <Filter tabIndex="0" />,
       onActive: () => {
         setOpen(true)
+      },
+      onKeyDown: e => {
+        if (e.code === 'KeyF') { 
+          setOpen(true)
+        } else if (e.code === 'Escape') {
+          setOpen(false)
+        }
       }
     },
     {
@@ -78,6 +86,12 @@ function ToolsList({ toggleTheme }) {
       image: <Shortcuts tabIndex="0" />,
       onActive: () => {
         setOpenShortcuts(true);
+      },
+      onKeyDown: e => {
+        if (e.code === 'Escape') {
+          setOpenShortcuts(false);
+          handleShortcutsOnBlur();
+        } 
       }
     },
     {
@@ -85,7 +99,15 @@ function ToolsList({ toggleTheme }) {
       name: 'Left.Items.Five',
       image: <Settings tabIndex="0" />,
       onActive: () => {
-        setOpenSettings(true);
+        setOpenSettings(true)
+      },
+      onKeyDown: e => {
+        if (e.code === 'KeyS') {
+          setOpenSettings(true);
+        } else if (e.code === 'Escape') {
+          setOpenSettings(false);
+          handleSettingsOnBlur();
+        }
       }
     }
   ];
@@ -102,6 +124,14 @@ function ToolsList({ toggleTheme }) {
     setActiveTool(!active);
     setOpen(false);
   }
+
+  useEffect(() => {
+    tools.map(tool => {
+      document.addEventListener('keydown', tool.onKeyDown)
+
+      return () => document.removeEventListener('keydown', tool.onKeyDown)
+    })
+  }, [tools])
 
   return (
     <>

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const CustomSelect = styled.select`
   // Spacement
-  padding: 0.375rem 0.875rem;
+  padding: 0.375rem 1.8rem 0.375rem 0.875rem;
 
   // Font
   font-style: normal;
