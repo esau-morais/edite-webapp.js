@@ -78,7 +78,7 @@ function FileUploader() {
         imageFile.src = e.target.result;
         setUploadedImageUrl(imageFile.src);
       }
-      fileReader.readAsDataURL(e.target.files[0]);
+      fileReader.readAsDataURL(e.dataTransfer.files[0]);
 
       setIsDragging(false);
       setIsUploading(false);
@@ -184,7 +184,7 @@ function FileUploader() {
           {!isDragging && (
             <ImageBox>
               <canvas style={{
-                filter: blur && 'blur(1rem)'
+                filter: blur ? 'blur(1rem)' : handleImageStyling()
               }}></canvas>
               <button onClick={() => setUploadedImageUrl('')}>
                 <Delete />
