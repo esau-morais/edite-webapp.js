@@ -1,7 +1,7 @@
 // Components (styles)
-import { LeftContainer } from '../toolbar.styles';
+import { LeftContainer } from "../toolbar.styles";
 // Components (children)
-import ToolsList from './tools';
+import ToolsList from "./tools";
 
 function ToolbarLeft({ toggleTheme }) {
   return (
@@ -10,8 +10,7 @@ function ToolbarLeft({ toggleTheme }) {
         <ToolsList toggleTheme={toggleTheme} />
       </ul>
     </LeftContainer>
-  )
+  );
 }
 
 export default ToolbarLeft;
-

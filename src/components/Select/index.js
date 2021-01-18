@@ -1,12 +1,9 @@
 // Components (styles)
-import { CustomSelect } from './select.styles';
+import { CustomSelect } from "./select.styles";
 
 function Select(props) {
   return (
-    <CustomSelect
-      value={props.value}
-      onChange={props.onSelectChange}
-    >
+    <CustomSelect value={props.value} onChange={props.onSelectChange}>
       {props.children}
     </CustomSelect>
   );

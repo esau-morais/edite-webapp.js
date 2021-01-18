@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const useMediaQuery = () => {
   // Get current screen's width
@@ -8,14 +8,14 @@ const useMediaQuery = () => {
 
   useEffect(() => {
     // "Watch" while it is being resized
-    window.addEventListener('resize', handleWindowSizeChange);
+    window.addEventListener("resize", handleWindowSizeChange);
     // Clean up side-effects after stop resizing
     return () => {
-      window.removeEventListener('resize', handleWindowSizeChange);
-    }
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
   }, []);
 
-  return (width <= 768);
-}
+  return width <= 768;
+};
 
 export default useMediaQuery;

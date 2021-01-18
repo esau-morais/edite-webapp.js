@@ -1,8 +1,8 @@
 // Providers
-import { useContext } from 'react';
-import { SliderContext } from 'App';
+import { SliderContext } from "App";
+import { useContext } from "react";
 // Components (styles)
-import { Wrapper } from './slider.styles';
+import { Wrapper } from "./slider.styles";
 
 function Slider({ min, max, value, handleChange }) {
   const { show } = useContext(SliderContext);
@@ -20,13 +20,11 @@ function Slider({ min, max, value, handleChange }) {
             value={value}
             onChange={handleChange}
           />
-          <span className="slider__value">
-            {value}
-          </span>
+          <span className="slider__value">{value}</span>
         </Wrapper>
       )}
     </>
-  )
+  );
 }
 
 export default Slider;

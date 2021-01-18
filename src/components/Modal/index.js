@@ -1,9 +1,9 @@
-import { createPortal } from 'react-dom';
 // Icons
-import { ReactComponent as Close } from 'assets/Close.svg';
+import { ReactComponent as Close } from "assets/Close.svg";
+import { createPortal } from "react-dom";
+import { Heading } from "../index";
 // Components (styles)
-import { Overlay, Wrapper } from './modal.styles';
-import { Heading } from '../index';
+import { Overlay, Wrapper } from "./modal.styles";
 
 function Modal({ open, onClose, toolName, children }) {
   if (!open) return null;
@@ -18,14 +18,11 @@ function Modal({ open, onClose, toolName, children }) {
 
         <Heading>{toolName}</Heading>
 
-        <section>
-          {children}
-        </section>
+        <section>{children}</section>
       </Wrapper>
     </>,
-    document.getElementById('portal')
-  )
+    document.getElementById("portal")
+  );
 }
 
 export default Modal;
-

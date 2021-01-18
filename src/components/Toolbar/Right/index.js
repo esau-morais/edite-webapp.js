@@ -1,9 +1,9 @@
-import { useContext } from 'react';
-import { ToolbarContext } from 'App';
-// Components (child)
-import ToolsList from './tools';
+import { ToolbarContext } from "App";
+import { useContext } from "react";
 // Components (styles)
-import { RightContainer } from '../toolbar.styles';
+import { RightContainer } from "../toolbar.styles";
+// Components (child)
+import ToolsList from "./tools";
 
 function ToolbarRight() {
   const { open } = useContext(ToolbarContext);
@@ -18,7 +18,7 @@ function ToolbarRight() {
         </RightContainer>
       )}
     </>
-  )
+  );
 }
 
 export default ToolbarRight;

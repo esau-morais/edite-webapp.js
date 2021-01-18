@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 function useProgressiveImg(lowQualitySrc, highQualitySrc) {
   const [src, setSrc] = useState(lowQualitySrc);
